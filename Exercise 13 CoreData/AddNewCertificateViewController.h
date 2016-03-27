@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  AddNewCertificateViewController.h
 //  Exercise 13 CoreData
 //
 //  Created by Pham Anh on 3/26/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface AddNewCertificateViewController : UIViewController
 
 @end
-

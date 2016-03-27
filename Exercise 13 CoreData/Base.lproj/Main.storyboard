@@ -1,25 +1,237 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wci-gq-PjL">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Employee List Table View Controller-->
+        <scene sceneID="aaH-6Q-2Wp">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <tableViewController id="iYM-CU-VqZ" customClass="EmployeeListTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="e4x-Jw-Ynm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="MZJ-tb-0T5">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MZJ-tb-0T5" id="4aB-PO-lSV">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="iYM-CU-VqZ" id="ldY-vs-CIm"/>
+                            <outlet property="delegate" destination="iYM-CU-VqZ" id="HVO-nb-bJE"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Ggv-uk-Lng"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f28-0F-STA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="2233" y="-496"/>
+        </scene>
+        <!--Employee-->
+        <scene sceneID="1aR-TQ-b3A">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7pO-La-efo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Employee" id="lfl-ZP-qcR"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HYJ-8d-cFB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="iYM-CU-VqZ" kind="relationship" relationship="rootViewController" id="THz-le-L7Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uyy-66-6Jq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1421" y="-496"/>
+        </scene>
+        <!--Add New Employee-->
+        <scene sceneID="NjH-hj-JJb">
+            <objects>
+                <viewController id="rPB-as-FOW" customClass="AddNewEmployeeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eyc-Ck-fQz"/>
+                        <viewControllerLayoutGuide type="bottom" id="kYm-pd-zrU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F2y-CP-UKd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoh-R4-0gC">
+                                <rect key="frame" x="285" y="461" width="30" height="30"/>
+                                <state key="normal" title="Add"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49V-bC-lIR">
+                                <rect key="frame" x="30" y="134" width="45" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x6w-Xd-ufw">
+                                <rect key="frame" x="30" y="175" width="48" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Certificate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oAa-A8-vls">
+                                <rect key="frame" x="260" y="216" width="80" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n29-ZV-Pkn">
+                                <rect key="frame" x="139" y="125" width="431" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Alv-0b-Ag5">
+                                <rect key="frame" x="139" y="166" width="431" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yeY-jI-xNb">
+                                <rect key="frame" x="270" y="501" width="60" height="30"/>
+                                <state key="normal" title="Reset All"/>
+                                <connections>
+                                    <action selector="resetAll:" destination="rPB-as-FOW" eventType="touchUpInside" id="vTI-vC-GIW"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="puO-LO-Dbp">
+                                <rect key="frame" x="30" y="245" width="540" height="206"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CertificateTableViewCell" id="UYT-em-VQk">
+                                        <rect key="frame" x="0.0" y="28" width="540" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UYT-em-VQk" id="K3d-ks-Hiv">
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="rPB-as-FOW" id="3TN-Gk-DU0"/>
+                                    <outlet property="delegate" destination="rPB-as-FOW" id="JB2-OJ-SEi"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yeY-jI-xNb" firstAttribute="top" secondItem="eoh-R4-0gC" secondAttribute="bottom" constant="10" id="31R-VJ-oZ2"/>
+                            <constraint firstItem="Alv-0b-Ag5" firstAttribute="top" secondItem="n29-ZV-Pkn" secondAttribute="bottom" constant="11" id="60c-yX-urm"/>
+                            <constraint firstItem="n29-ZV-Pkn" firstAttribute="top" secondItem="eyc-Ck-fQz" secondAttribute="bottom" constant="61" id="9Yc-uX-uFm"/>
+                            <constraint firstItem="x6w-Xd-ufw" firstAttribute="leading" secondItem="F2y-CP-UKd" secondAttribute="leadingMargin" constant="10" id="Bsf-JG-VeC"/>
+                            <constraint firstItem="Alv-0b-Ag5" firstAttribute="trailing" secondItem="n29-ZV-Pkn" secondAttribute="trailing" id="DW8-Nz-ML7"/>
+                            <constraint firstItem="kYm-pd-zrU" firstAttribute="top" secondItem="yeY-jI-xNb" secondAttribute="bottom" constant="20" id="LYS-Sz-gWH"/>
+                            <constraint firstItem="eoh-R4-0gC" firstAttribute="top" secondItem="puO-LO-Dbp" secondAttribute="bottom" constant="10" id="Lq8-Pw-1xn"/>
+                            <constraint firstItem="Alv-0b-Ag5" firstAttribute="leading" secondItem="n29-ZV-Pkn" secondAttribute="leading" id="Nb0-61-ZGo"/>
+                            <constraint firstItem="x6w-Xd-ufw" firstAttribute="top" secondItem="49V-bC-lIR" secondAttribute="bottom" constant="20" id="Qme-11-98H"/>
+                            <constraint firstItem="oAa-A8-vls" firstAttribute="centerX" secondItem="F2y-CP-UKd" secondAttribute="centerX" id="Une-So-35v"/>
+                            <constraint firstItem="puO-LO-Dbp" firstAttribute="top" secondItem="oAa-A8-vls" secondAttribute="bottom" constant="8" id="VNY-5s-fp2"/>
+                            <constraint firstItem="puO-LO-Dbp" firstAttribute="centerX" secondItem="F2y-CP-UKd" secondAttribute="centerX" id="WqV-kc-wzH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="n29-ZV-Pkn" secondAttribute="trailing" constant="10" id="bdj-qM-XPG"/>
+                            <constraint firstItem="oAa-A8-vls" firstAttribute="top" secondItem="Alv-0b-Ag5" secondAttribute="bottom" constant="20" id="bgd-gd-zRJ"/>
+                            <constraint firstItem="49V-bC-lIR" firstAttribute="top" secondItem="eyc-Ck-fQz" secondAttribute="bottom" constant="70" id="cV2-R5-enI"/>
+                            <constraint firstItem="eoh-R4-0gC" firstAttribute="centerX" secondItem="F2y-CP-UKd" secondAttribute="centerX" id="cku-ni-HFR"/>
+                            <constraint firstItem="puO-LO-Dbp" firstAttribute="leading" secondItem="F2y-CP-UKd" secondAttribute="leadingMargin" constant="10" id="eru-sH-luy"/>
+                            <constraint firstItem="n29-ZV-Pkn" firstAttribute="leading" secondItem="49V-bC-lIR" secondAttribute="trailing" constant="64" id="gws-uu-bzu"/>
+                            <constraint firstItem="49V-bC-lIR" firstAttribute="leading" secondItem="x6w-Xd-ufw" secondAttribute="leading" id="jMr-C0-6CE"/>
+                            <constraint firstItem="yeY-jI-xNb" firstAttribute="centerX" secondItem="F2y-CP-UKd" secondAttribute="centerX" id="m6q-24-cU8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add New Employee" id="mHz-bc-qVM"/>
+                    <connections>
+                        <outlet property="tblCertificate" destination="puO-LO-Dbp" id="aiD-JD-LhS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10G-mC-yLb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2002" y="330"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="quO-ko-7wl">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="wci-gq-PjL" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="FW8-1P-uAS">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="7pO-La-efo" kind="relationship" relationship="viewControllers" id="Ebc-eE-nbe"/>
+                        <segue destination="WrY-RQ-c0N" kind="relationship" relationship="viewControllers" id="PvR-6o-0bC"/>
+                        <segue destination="oiZ-Hj-EMd" kind="relationship" relationship="viewControllers" id="3uD-qh-zui"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eWO-Df-V2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="609" y="-496"/>
+        </scene>
+        <!--Add New Certificate-->
+        <scene sceneID="0pC-wE-R1w">
+            <objects>
+                <viewController id="VrZ-Et-heH" customClass="AddNewCertificateViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nrY-uo-39v"/>
+                        <viewControllerLayoutGuide type="bottom" id="iDf-4y-xdr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i93-am-TDc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add New Certificate" id="Wc0-Jn-j1n"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BuR-9W-0e6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2002" y="1062"/>
+        </scene>
+        <!--Add New-->
+        <scene sceneID="8dI-Pf-6y9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WrY-RQ-c0N" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Add New" id="oM3-aB-1I6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eMj-JM-Y0c">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rPB-as-FOW" kind="relationship" relationship="rootViewController" id="83g-FB-ZC7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dMd-el-W6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1190" y="330"/>
+        </scene>
+        <!--Add New Certificate-->
+        <scene sceneID="D6T-k7-7Eb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oiZ-Hj-EMd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Add New Certificate" id="rnM-QG-HcF"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LTS-ZC-s7t">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VrZ-Et-heH" kind="relationship" relationship="rootViewController" id="0F8-ee-2LQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bca-te-LFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1190" y="1062"/>
         </scene>
     </scenes>
 </document>
