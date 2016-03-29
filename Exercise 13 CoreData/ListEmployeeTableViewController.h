@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreDataManager.h"
 
 @interface ListEmployeeTableViewController : UITableViewController
+
+@property (strong, nonatomic) NSArray <Employee *> *listEmployees;
+@property (strong, nonatomic) Certificate *certificate;
 
 @end

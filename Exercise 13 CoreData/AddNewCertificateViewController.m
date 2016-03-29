@@ -7,21 +7,66 @@
 //
 
 #import "AddNewCertificateViewController.h"
+#import "CoreDataManager.h"
 
-@interface AddNewCertificateViewController ()
+@interface AddNewCertificateViewController () <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *tfCertificateName;
 
 @end
 
 @implementation AddNewCertificateViewController
 
+- (IBAction)addCertificate:(id)sender {
+    [self.tfCertificateName resignFirstResponder];
+    if ([self.tfCertificateName.text  isEqual: @""]) {
+        NSLog(@"Input ?");
+        return;
+    }
+    if ([[CoreDataManager sharedInstance] createNewCertificateWithName:_tfCertificateName.text]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Create New Certificate"
+                                                                       message:@"Created Successfully"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             
+                                                         }];
+        
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        NSLog(@"Create Failed");
+    }
+    
+    [self.tfCertificateName setText:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tfCertificateName.delegate = self;
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [self.tfCertificateName resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [self.tfCertificateName becomeFirstResponder];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.tfCertificateName resignFirstResponder];
 }
 
 /*

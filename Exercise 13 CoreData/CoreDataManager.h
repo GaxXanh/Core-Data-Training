@@ -21,6 +21,13 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (BOOL) createNewCertificateWithName:(NSString *)name;
-- (NSArray<Certificate *> *) getAllCertificates;
+- (BOOL) createNewEmployeeWithFirstName:(NSString *)name ofFsu:(NSString *)fsu withCertificates:(NSArray *)listCertificates;
+- (void) deleteCertificateWithName:(NSString *)attributeName;
+- (Employee *) getEmployeeHaveIndex:(NSInteger) index;
+- (void) removeAllEmployee;
+- (void) removeAllCertificates;
+- (NSArray *) searchAllEmployeesHaveCertificate:(NSString *)certificate;
+- (void) deleteEmployee:(Employee *)employeeToDelete;
+- (BOOL) updateCertificate:(NSSet<Certificate *> *)selectedCertificates forEmployee:(Employee *)employee;
 
 @end

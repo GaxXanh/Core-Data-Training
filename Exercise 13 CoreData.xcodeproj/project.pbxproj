@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3216DD801CAA335A0094D2B5 /* EditCertificateEmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = 3216DD7F1CAA335A0094D2B5 /* EditCertificateEmployee.m */; };
+		322DC9151CA8FBFF002B03D5 /* DetailEmployeeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322DC9141CA8FBFF002B03D5 /* DetailEmployeeTableViewController.m */; };
+		322DC9181CA917D9002B03D5 /* ListEmployeeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 322DC9171CA917D9002B03D5 /* ListEmployeeTableViewController.m */; };
 		3241B2FA1CA65E87004649C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3241B2F91CA65E87004649C4 /* main.m */; };
 		3241B2FD1CA65E87004649C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3241B2FC1CA65E87004649C4 /* AppDelegate.m */; };
 		3241B3031CA65E87004649C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3241B3011CA65E87004649C4 /* Main.storyboard */; };
@@ -24,6 +27,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3216DD7E1CAA335A0094D2B5 /* EditCertificateEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCertificateEmployee.h; sourceTree = "<group>"; };
+		3216DD7F1CAA335A0094D2B5 /* EditCertificateEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCertificateEmployee.m; sourceTree = "<group>"; };
+		322DC9131CA8FBFF002B03D5 /* DetailEmployeeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailEmployeeTableViewController.h; sourceTree = "<group>"; };
+		322DC9141CA8FBFF002B03D5 /* DetailEmployeeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailEmployeeTableViewController.m; sourceTree = "<group>"; };
+		322DC9161CA917D9002B03D5 /* ListEmployeeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListEmployeeTableViewController.h; sourceTree = "<group>"; };
+		322DC9171CA917D9002B03D5 /* ListEmployeeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListEmployeeTableViewController.m; sourceTree = "<group>"; };
 		3241B2F51CA65E87004649C4 /* Exercise 13 CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Exercise 13 CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3241B2F91CA65E87004649C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3241B2FB1CA65E87004649C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -88,10 +97,16 @@
 				3241B2FC1CA65E87004649C4 /* AppDelegate.m */,
 				3241B3191CA663B1004649C4 /* EmployeeListTableViewController.h */,
 				3241B31A1CA663B1004649C4 /* EmployeeListTableViewController.m */,
+				322DC9131CA8FBFF002B03D5 /* DetailEmployeeTableViewController.h */,
+				322DC9141CA8FBFF002B03D5 /* DetailEmployeeTableViewController.m */,
+				3216DD7E1CAA335A0094D2B5 /* EditCertificateEmployee.h */,
+				3216DD7F1CAA335A0094D2B5 /* EditCertificateEmployee.m */,
 				3241B3401CA67BD8004649C4 /* AddNewEmployeeViewController.h */,
 				3241B3411CA67BD8004649C4 /* AddNewEmployeeViewController.m */,
 				3241B3431CA67D0B004649C4 /* AddNewCertificateViewController.h */,
 				3241B3441CA67D0B004649C4 /* AddNewCertificateViewController.m */,
+				322DC9161CA917D9002B03D5 /* ListEmployeeTableViewController.h */,
+				322DC9171CA917D9002B03D5 /* ListEmployeeTableViewController.m */,
 				3241B3011CA65E87004649C4 /* Main.storyboard */,
 				3241B3071CA65E87004649C4 /* Assets.xcassets */,
 				3241B3091CA65E87004649C4 /* LaunchScreen.storyboard */,
@@ -196,6 +211,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				322DC9151CA8FBFF002B03D5 /* DetailEmployeeTableViewController.m in Sources */,
+				322DC9181CA917D9002B03D5 /* ListEmployeeTableViewController.m in Sources */,
 				3241B3451CA67D0B004649C4 /* AddNewCertificateViewController.m in Sources */,
 				3241B2FD1CA65E87004649C4 /* AppDelegate.m in Sources */,
 				3241B33D1CA67739004649C4 /* Certificate.m in Sources */,
@@ -203,6 +220,7 @@
 				3241B33E1CA67739004649C4 /* Employee+CoreDataProperties.m in Sources */,
 				3241B33C1CA67739004649C4 /* Certificate+CoreDataProperties.m in Sources */,
 				3241B3171CA65F16004649C4 /* CoreDataManager.m in Sources */,
+				3216DD801CAA335A0094D2B5 /* EditCertificateEmployee.m in Sources */,
 				3241B33F1CA67739004649C4 /* Employee.m in Sources */,
 				3241B3061CA65E87004649C4 /* Exercise_13_CoreData.xcdatamodeld in Sources */,
 				3241B2FA1CA65E87004649C4 /* main.m in Sources */,
@@ -319,6 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Exercise 13 CoreData/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.GaxXanh.Exercise-13-CoreData";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -330,6 +349,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Exercise 13 CoreData/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.GaxXanh.Exercise-13-CoreData";
 				PRODUCT_NAME = "$(TARGET_NAME)";

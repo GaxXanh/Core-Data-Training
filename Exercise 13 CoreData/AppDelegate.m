@@ -16,9 +16,23 @@
 
 @implementation AppDelegate
 
+- (void) addDummy;
+{
+    // Create 4 Certificates
+    [[CoreDataManager sharedInstance] createNewCertificateWithName:@"YoungBoy"];
+    [[CoreDataManager sharedInstance] createNewCertificateWithName:@"YoungGirl"];
+    [[CoreDataManager sharedInstance] createNewCertificateWithName:@"OldBoy"];
+    [[CoreDataManager sharedInstance] createNewCertificateWithName:@"OlgGirl"];
+
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[CoreDataManager sharedInstance] removeAllEmployee];
+    [[CoreDataManager sharedInstance] removeAllCertificates];
+    
+    [self addDummy];
     
     return YES;
 }

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Employee.h"
 
-@interface DetailEmployeeTableViewController : UITableViewCell
+@interface DetailEmployeeTableViewController : UITableViewController
+
+- (void) setEmployee:(Employee *)employee;
 
 @end

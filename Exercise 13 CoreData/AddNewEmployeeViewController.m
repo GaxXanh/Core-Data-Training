@@ -12,7 +12,7 @@
 
 static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
 
-@interface AddNewEmployeeViewController () <NSFetchedResultsControllerDelegate , UITableViewDelegate, UITableViewDataSource>
+@interface AddNewEmployeeViewController () <NSFetchedResultsControllerDelegate , UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *tfName;
 @property (weak, nonatomic) IBOutlet UITextField *tfFsu;
@@ -26,6 +26,8 @@ static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tfName.delegate = self;
+    self.tfFsu.delegate = self;
     [self.tblCertificate setAllowsMultipleSelection:YES];
     [self structFetchResult];
     // Do any additional setup after loading the view.
@@ -47,7 +49,6 @@ static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
     self.frc.delegate = self;
     NSError *fetchingError = nil;
     if ([self.frc performFetch:&fetchingError]) {
-        NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch.");
     }
@@ -71,8 +72,36 @@ static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
 - (IBAction)addNewEmployee:(id)sender
 {
     if ([self checkValidateData]) {
-        return;
+        NSString *name = self.tfName.text;
+        NSString *fsu = self.tfFsu.text;
+        NSMutableArray *listCertificates = [[NSMutableArray alloc] init];
+        NSArray<NSIndexPath *> *listSelectedRows = [self.tblCertificate indexPathsForSelectedRows];
+        for (NSIndexPath *indexPath in listSelectedRows) {
+            [listCertificates addObject:
+             [self.tblCertificate cellForRowAtIndexPath:indexPath].textLabel.text];
+        }
+        if ([[CoreDataManager sharedInstance] createNewEmployeeWithFirstName:name
+                                                                       ofFsu:fsu
+                                                            withCertificates:[NSArray arrayWithArray:listCertificates]]) {
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add New Employee"
+                                                                           message:@"Added Successfully"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                 
+                                                             }];
+            
+            [alert addAction:okAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        } else {
+            NSLog(@"Failed");
+        }
     }
+    
+    [self resetAll:self];
     
     return;
 }
@@ -131,6 +160,8 @@ static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
         cell = [self.tblCertificate dequeueReusableCellWithIdentifier:CertificateTableViewCell
                                                          forIndexPath:indexPath];
         
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
         Certificate *certificate = [self.frc objectAtIndexPath:indexPath];
         
         cell.textLabel.text = certificate.name;
@@ -141,15 +172,45 @@ static NSString *CertificateTableViewCell = @"CertificateTableViewCell";
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:self.tblCertificate]) {
-        [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
-    }
+        if ([[tableView cellForRowAtIndexPath:indexPath] accessoryType] == UITableViewCellAccessoryNone) {
+            [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
+        }
 }
 
 - (void) tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([tableView isEqual:self.tblCertificate]) {
+    if ([[tableView cellForRowAtIndexPath:indexPath] accessoryType] == UITableViewCellAccessoryCheckmark) {
         [[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryNone];
     }
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.tfName]) {
+        [self.tfName resignFirstResponder];
+    } else if ([textField isEqual:self.tfFsu]) {
+        [self.tfFsu resignFirstResponder];
+    }
+    
+    return NO;
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([textField isEqual:self.tfName]) {
+        [self.tfName becomeFirstResponder];
+    } else if ([textField isEqual:self.tfFsu]) {
+        [self.tfFsu becomeFirstResponder];
+    }
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+    [self.tfFsu resignFirstResponder];
+    [self.tfName resignFirstResponder];
+}
+
+- (void) touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.tfName resignFirstResponder];
+    [self.tfFsu resignFirstResponder];
 }
 
 

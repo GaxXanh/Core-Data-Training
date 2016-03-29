@@ -104,7 +104,7 @@
 
 #pragma mark - Common Method
 
-- (BOOL) createNewEmployeeWithFirstName:(NSString *)name ofFsu:(NSString *)fsu withCertificates:(NSSet<Certificate *> *)listCertificates;
+- (BOOL) createNewEmployeeWithFirstName:(NSString *)name ofFsu:(NSString *)fsu withCertificates:(NSArray *)listCertificates;
 {
     BOOL result = NO;
     
@@ -119,7 +119,13 @@
     newEmployee.index = [NSNumber numberWithUnsignedInteger:[self getCurrentIndexOfEmployeeTable] + 1];
     newEmployee.name = name;
     newEmployee.fsu = fsu;
-    newEmployee.certificates = listCertificates;
+    
+    NSSet<Certificate *> *certificates = [self getCertificatesWithArrayNameCertificates:listCertificates];
+    [newEmployee setCertificates:certificates];
+    
+    for (Certificate *insCertificate in certificates) {
+        [insCertificate addEmployeesObject:newEmployee];
+    }
     
     NSError *savingError = nil;
     
@@ -157,14 +163,60 @@
     return result;
 }
 
+- (void) deleteEmployee:(Employee *)employeeToDelete;
+{
+    [self.managedObjectContext deleteObject:employeeToDelete];
+    if ([employeeToDelete isDeleted]){
+        NSError *savingError = nil;
+        if ([[self managedObjectContext] save:&savingError]){
+            NSLog(@"Successfully deleted the object");
+        } else {
+            NSLog(@"Failed to save the context with error = %@", savingError);
+        }
+    }
+}
+
+- (void) removeAllEmployee;
+{
+    for (Employee *insEmployee in [self getAllEmployee]) {
+        [self.managedObjectContext deleteObject:insEmployee];
+    }
+    [self.managedObjectContext save:nil];
+}
+
+- (void) removeAllCertificates;
+{
+    for (Certificate *insCertificate in [self getAllCertificates]) {
+        [self.managedObjectContext deleteObject:insCertificate];
+    }
+    [self.managedObjectContext save:nil];
+}
+
+- (NSArray<Employee *> *) getAllEmployee;
+{
+    NSFetchRequest *fetchRequet = [[NSFetchRequest alloc] initWithEntityName:@"Employee"];
+    
+    NSError *requestError = nil;
+    
+    NSArray<Employee *> *employees = [self.managedObjectContext executeFetchRequest:fetchRequet
+                                                                              error:&requestError];
+    
+    if ([employees count] > 0) {
+        return employees;
+    } else {
+        NSLog(@"There are no employee in table");
+    }
+    
+    return nil;
+}
+
 - (NSArray<Certificate *> *) getAllCertificates;
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Certificate"];
     
     NSError *requestError = nil;
     
-    NSArray<Certificate *> *certificates = [self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                     error:&requestError];
+    NSArray<Certificate *> *certificates = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
     
     if ([certificates count] > 0) {
         return certificates;
@@ -175,22 +227,24 @@
     return nil;
 }
 
-- (NSArray<Employee *> *) getAllEmployee;
+- (Employee *) getEmployeeHaveIndex:(NSInteger) index;
 {
-    NSFetchRequest *fetchRequet = [[NSFetchRequest alloc] initWithEntityName:@"Employee"];
+    NSFetchRequest *fetchRequets = [[NSFetchRequest alloc] initWithEntityName:@"Employee"];
     
-    NSError *requestError = nil;
+    NSString *attributeName = @"index";
+    NSNumber *attributeValue = [NSNumber numberWithInteger:index];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@" argumentArray:@[attributeName, attributeValue]];
+    [fetchRequets setPredicate:predicate];
     
-    NSArray<Employee *> *employees = [self.managedObjectContext executeFetchRequest:fetchRequet
-                                                                  error:&requestError];
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequets error:&error];
     
-    if ([employees count] > 0) {
-        return employees;
+    if ([fetchedObjects count] != 1) {
+        NSLog(@"Error: %@", error);
+        return nil;
     } else {
-        NSLog(@"There are no employee in table");
+        return [fetchedObjects objectAtIndex:0];
     }
-    
-    return nil;
 }
 
 - (NSUInteger) getCurrentIndexOfEmployeeTable;
@@ -199,39 +253,103 @@
     
     NSError *requestError = nil;
     
+    fetchRequest.fetchLimit = 1;
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:NO]];
+    
     NSArray *employees = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                   error:&requestError];
     
-    if ([employees count] > 0) {
-        Employee *lastEmployee = [employees lastObject];
-        return [lastEmployee.index unsignedIntegerValue];
+    if ([employees count] == 1) {
+        Employee *employee = [employees objectAtIndex:0];
+        return [employee.index unsignedIntegerValue];
     } else {
-        NSLog(@"There are no employee in table");
+        NSLog(@"There are no employee in table or fail ?");
     }
     
     return 0;
 }
 
-- (NSArray *) searchAllEmployeesHaveCertificate:(Certificate *)certificate;
+- (void) deleteCertificateWithName:(NSString *)attributeNameValue;
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Employee"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Certificate" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    // Specify criteria for filtering which objects to fetch
+    NSString *attributeName = @"name";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@" argumentArray:@[attributeName ,attributeNameValue]];
+    [fetchRequest setPredicate:predicate];
     
-    NSSortDescriptor *idSord = [[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES];
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    fetchRequest.sortDescriptors = @[idSord];
+    if (fetchedObjects == nil) {
+        NSLog(@"Error : %@", error);
+    } else {
+        for (Certificate *insCertificate in fetchedObjects) {
+            if ([insCertificate.name isEqualToString:attributeNameValue]) {
+                [self.managedObjectContext deleteObject:insCertificate];
+                if ([insCertificate isDeleted]) {
+                    NSLog(@"Successfully deleted certificate: %@", insCertificate.name);
+                    
+                    NSError *savingError = nil;
+                    if ([self.managedObjectContext save:&savingError]){
+                        NSLog(@"Successfully saved the context.");
+                    }
+                    else {
+                        NSLog(@"Failed to save the context.");
+                    }
+                }
+            }
+        }
+    }
+}
+
+- (NSSet <Certificate *> *) getCertificatesWithArrayNameCertificates:(NSArray *)listCertificates;
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Certificate" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"(name == %@)", certificate.name];
+    NSString *attributeName = @"name";
+    NSMutableArray *subPredicates = [[NSMutableArray alloc] init];
+    for (NSString *certificateName in listCertificates) {
+        NSPredicate *predicateName = [NSPredicate predicateWithFormat:@"%K like %@" argumentArray:@[attributeName, certificateName]];
+        [subPredicates addObject:predicateName];
+    }
+    NSPredicate *orPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:[NSArray arrayWithArray:subPredicates]];
+    [fetchRequest setPredicate:orPredicate];
+    
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if ([fetchedObjects count] > 0) {
+        return [NSSet setWithArray:fetchedObjects];
+    } else {
+        return nil;
+    }
+}
+
+- (NSArray *) searchAllEmployeesHaveCertificate:(NSString *)certificate;
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Certificate"];
+    
+    NSString *attributeName = @"name";
+    NSString *attributeValue = certificate;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@" argumentArray:@[attributeName, attributeValue]];
     
     fetchRequest.predicate = predicate;
     
     NSError *requestError = nil;
     
-    NSArray *employees = [self.managedObjectContext executeFetchRequest:fetchRequest
+    NSArray *certificates = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                   error:&requestError];
     
-    if ([employees count] > 0) {
-        return employees;
+    if ([certificates count] == 1) {
+        Certificate *insCertificate = [certificates objectAtIndex:0];
+        NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithSet:insCertificate.employees];
+        NSSortDescriptor *indexDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+        NSArray *sorted = [orderedSet sortedArrayUsingDescriptors:@[indexDescriptor]];
+        return [NSArray arrayWithArray:sorted];
     } else {
         NSLog(@"Could not find any Employee entities in the context");
     }
@@ -239,6 +357,31 @@
     return nil;
 }
 
+- (BOOL) updateCertificate:(NSSet<Certificate *> *)selectedCertificates forEmployee:(Employee *)employee;
+{
+    NSArray *allCertificate = [self getAllCertificates];
+    // Remove certificate in employee and remove employee in certificate
+    for (Certificate *insCertificate in allCertificate) {
+        [employee removeCertificatesObject:insCertificate];
+        [insCertificate removeEmployeesObject:employee];
+    }
+    [employee addCertificates:selectedCertificates];
+    
+    // Add certificate for employee and add employee for certificate
+    for (Certificate *insCertificate in selectedCertificates) {
+        [employee addCertificatesObject:insCertificate];
+        [insCertificate addEmployeesObject:employee];
+    }
+    
+    NSError *savingError = nil;
+    if ([self.managedObjectContext save:&savingError]) {
+        NSLog(@"Update Successfully");
+        return true;
+    } else {
+        NSLog(@"Update Failed With Error : %@", savingError);
+        return false;
+    }
+}
 
 @end
 
